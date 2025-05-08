@@ -1,0 +1,32 @@
+ 📄 index.html
+import express from 'express';
+import fetch from 'node-fetch';
+import { createClient } from '@supabase/supabase-js';
+import dotenv from 'dotenv';
+import path from 'path';
+
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 3001;
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+
+app.use(express.json());
+app.use(express.static('public'));
+
+app.get('/api/leaderboard', async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from('users')
+            .select('id, balance')
+            .order('balance', { ascending: false })
+            .limit(10);
+
+        if (error) return res.status(500).json({ success: false, error });
+        return res.json({ success: true, leaderboard: data });
+    } catch (err) {
+        return res.status(500).json({ success: false, error: err.message });
+    }
+});
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
