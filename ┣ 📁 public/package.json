@@ -1,0 +1,15 @@
+{
+  "name": "where-token-server",
+  "version": "1.0.0",
+  "description": "Сервер для вашего Where Token приложения",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "node-fetch": "^3.3.2",
+    "@supabase/supabase-js": "^2.21.0",
+    "dotenv": "^16.1.4"
+  }
+}
